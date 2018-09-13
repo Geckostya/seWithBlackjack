@@ -11,7 +11,7 @@
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
             <Label fx:id="dealerScore" text="Score: " />
-            <Separator prefWidth="200.0" />
+            <Separator prefWidth="200.0" visible="false" />
             <Label fx:id="dealerDeck" text="Label" />
          </children>
       </HBox>
@@ -24,7 +24,7 @@
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
             <Label fx:id="playerScore" text="Score: " />
-            <Separator prefWidth="200.0" />
+            <Separator prefWidth="200.0" visible="false" />
             <Label fx:id="playerDeck" text="Label" />
          </children>
       </HBox>

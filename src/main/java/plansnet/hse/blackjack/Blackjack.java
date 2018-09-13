@@ -1,7 +1,6 @@
 package plansnet.hse.blackjack;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -32,15 +31,14 @@ public class Blackjack extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Stage stage = primaryStage;
-        Scene scene = openScene("Blackjack");
-        stage.setScene(scene);
-        stage.show();
+        Scene scene = openScene();
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
-    private Scene openScene(String sceneName) throws Exception {
+    private Scene openScene() throws Exception {
         Parent root = FXMLLoader
-                .load(getClass().getResource(pathToUI + sceneName + ".fxml"));
+                .load(getClass().getResource(pathToUI + "Blackjack.fxml"));
         return new Scene(root);
     }
 
@@ -50,19 +48,19 @@ public class Blackjack extends Application {
     }
 
     private void updateScene() {
-        playerScore.setText(scores(game.getPlayerHand()));
-        dealerScore.setText(scores(game.getDealerHand()));
+        playerScore.setText("Player " + scores(game.getPlayerHand()));
+        dealerScore.setText("Dealer " + scores(game.getDealerHand()));
 
         playerDeck.setText(deck(game.getPlayerHand()));
         dealerDeck.setText(deck(game.getDealerHand()));
     }
 
     private String scores(List<Card> hand) {
-        return "Score: " + Game.CardEvaluator.getHandScore(hand);
+        return "score: " + Game.CardEvaluator.getHandScore(hand);
     }
 
     private String deck(List<Card> hand) {
-        return  "Deck: " + String.join(" ", hand.stream().map(Card::toString).collect(Collectors.toList()));
+        return "Deck: " + String.join(" ", hand.stream().map(Card::toString).collect(Collectors.toList()));
     }
 
     private void endGame(int result) {
@@ -72,7 +70,12 @@ public class Blackjack extends Application {
                 (result == 0) ? "Draw!" : (result == 1) ? "You won!" : "Dealer won!"
         );
         alert.showAndWait();
-        Platform.exit();
+        restartGame();
+    }
+
+    private void restartGame() {
+        game = new Game();
+        updateScene();
     }
 
     @FXML
