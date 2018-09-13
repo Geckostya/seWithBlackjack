@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
 <VBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="plansnet.hse.blackjack.Blackjack">
    <children>
       <HBox prefHeight="100.0" prefWidth="200.0">
@@ -18,8 +17,8 @@
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button mnemonicParsing="false" text="Pass" />
-            <Button mnemonicParsing="false" text="Get" />
+            <Button mnemonicParsing="false" onAction="#pass" text="Pass" />
+            <Button mnemonicParsing="false" onAction="#get" text="Get" />
          </children>
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0">

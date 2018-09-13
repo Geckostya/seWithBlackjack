@@ -58,4 +58,28 @@ public class Game {
         }
     }
 
+
+    private int getPlayerScore() {
+        return CardEvaluator.getHandScore(playerHand);
+    }
+
+    private int getDealerScore() {
+        return CardEvaluator.getHandScore(dealerHand);
+    }
+
+    public boolean getCard() {
+        playerHand.add(deck.top());
+        return getPlayerScore() <= 21;
+    }
+
+    public int playerPass() {
+        while (getDealerScore() < 17)
+            dealerHand.add(deck.top());
+        if (getDealerScore() > 21)
+            return 1;
+        if (getDealerScore() == getPlayerScore())
+            return 0;
+        return (getDealerScore() < getPlayerScore()) ? 1 : 2;
+    }
+
 }
