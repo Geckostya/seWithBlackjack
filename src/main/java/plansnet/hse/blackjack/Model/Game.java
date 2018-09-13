@@ -20,6 +20,9 @@ public class Game {
     public List<Card> getPlayerHand() {
         return playerHand;
     }
+    public List<Card> getDealerHand() {
+        return dealerHand;
+    }
 
     public int getDealerHandSize() {
         return dealerHand.size();
