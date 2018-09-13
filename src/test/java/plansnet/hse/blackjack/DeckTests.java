@@ -8,8 +8,9 @@ import java.util.Arrays;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertTrue;
 
-public class LogicTests {
+public class DeckTests {
     @Test
     public void deckInit() {
         Deck deck = new Deck();
@@ -23,5 +24,13 @@ public class LogicTests {
         for (int a : deckCheckArray) {
             assertThat(a, is(0));
         }
+    }
+
+    @Test
+    public void deckEmpty() {
+        Deck deck = new Deck();
+        for (int i = 0; i < 52; i++)
+            deck.top();
+        assertTrue(deck.isEmpty());
     }
 }
