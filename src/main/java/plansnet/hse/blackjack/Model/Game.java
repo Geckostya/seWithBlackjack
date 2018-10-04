@@ -64,10 +64,10 @@ public class Game {
 
 
     private int getSelfHandScore() {
-        return CardEvaluator.getHandScore(otherHand);
+        return CardEvaluator.getHandScore(selfHand);
     }
     private int getOtherHandScore() {
-        return CardEvaluator.getHandScore(selfHand);
+        return CardEvaluator.getHandScore(otherHand);
     }
 
     public void getCard() {
@@ -104,7 +104,7 @@ public class Game {
         if (getOtherHandScore() > 21) {
             return false;
         }
-        return getSelfHandScore() >= getOtherHandScore();
+        return getSelfHandScore() < getOtherHandScore();
     }
 
 }

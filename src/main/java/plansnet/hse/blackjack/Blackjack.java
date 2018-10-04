@@ -106,7 +106,7 @@ public class Blackjack extends Application {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText(null);
         alert.setContentText(
-                (result == 0) ? "Draw!" : (result == 1) ? "You won!" : "Other won!"
+                result == 1 ? "You won!" : "Other won!"
         );
         alert.showAndWait();
         restartGame();
@@ -121,14 +121,17 @@ public class Blackjack extends Application {
     private void get() {
         game.getCard();
         updateScene();
-        if (!game.isOver()) {
-            endGame(game.getWinner() ? 1 : 2);
+        if (game.isOver()) {
+            endGame(game.getWinner() ? 2 : 1);
         }
     }
 
     @FXML
     private void pass() {
         game.pass();
+        if (game.isOver()) {
+            endGame(game.getWinner() ? 2 : 1);
+        }
     }
 
     @FXML
