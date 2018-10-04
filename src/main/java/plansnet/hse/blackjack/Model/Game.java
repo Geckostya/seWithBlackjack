@@ -2,30 +2,35 @@ package plansnet.hse.blackjack.Model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Game {
 
     private Deck deck = new Deck();
-    private List<Card> dealerHand = new ArrayList<>();
-    private List<Card> playerHand = new ArrayList<>();
+    private boolean who;
+    private boolean selfPass;
+    private boolean otherPass;
+    private List<Card> selfHand = new ArrayList<>();
+    private List<Card> otherHand = new ArrayList<>();
 
     public Game() {
-        playerHand.add(deck.top());
-        dealerHand.add(deck.top());
+        otherHand.add(deck.top());
+        selfHand.add(deck.top());
 
-        playerHand.add(deck.top());
-        dealerHand.add(deck.top());
+        otherHand.add(deck.top());
+        selfHand.add(deck.top());
+
+        who = new Random().nextBoolean();
+        selfPass = false;
+        otherPass = false;
     }
 
-    public List<Card> getPlayerHand() {
-        return playerHand;
-    }
-    public List<Card> getDealerHand() {
-        return dealerHand;
+    public List<Card> getOtherHand() {
+        return otherHand;
     }
 
-    public int getDealerHandSize() {
-        return dealerHand.size();
+    public List<Card> getSelfHand() {
+        return selfHand;
     }
 
     public static class CardEvaluator {
@@ -34,12 +39,11 @@ public class Game {
             int result = 0;
             for (Card c : cards) {
                 int k = getCardScore(c);
+                result += k;
 
                 if (k == 1) {
                     aces++;
                 }
-
-                result += k;
             }
 
             while (aces > 0 && result + 10 <= 21) {
@@ -59,27 +63,48 @@ public class Game {
     }
 
 
-    private int getPlayerScore() {
-        return CardEvaluator.getHandScore(playerHand);
+    private int getSelfHandScore() {
+        return CardEvaluator.getHandScore(otherHand);
+    }
+    private int getOtherHandScore() {
+        return CardEvaluator.getHandScore(selfHand);
     }
 
-    private int getDealerScore() {
-        return CardEvaluator.getHandScore(dealerHand);
+    public void getCard() {
+        List<Card> cards = (who ? otherHand : selfHand);
+
+        cards.add(deck.top());
+
+        if ((who && !selfEnded()) || (!who && !otherEnded())) {
+            who = !who;
+        }
+
     }
 
-    public boolean getCard() {
-        playerHand.add(deck.top());
-        return getPlayerScore() <= 21;
+    public boolean who() {
+        return who;
     }
 
-    public int playerPass() {
-        while (getDealerScore() < 17)
-            dealerHand.add(deck.top());
-        if (getDealerScore() > 21)
-            return 1;
-        if (getDealerScore() == getPlayerScore())
-            return 0;
-        return (getDealerScore() < getPlayerScore()) ? 1 : 2;
+    public boolean isOver() {
+        return getSelfHandScore() > 21 || getOtherHandScore() > 21 || (selfPass && otherPass);
+    }
+
+    public boolean getWinner() {
+        if (getSelfHandScore() > 21) {
+            return true;
+        }
+        if (getOtherHandScore() > 21) {
+            return false;
+        }
+        return getSelfHandScore() >= getOtherHandScore();
+    }
+
+    private boolean selfEnded() {
+        return selfPass || getSelfHandScore() > 21;
+    }
+
+    private boolean otherEnded() {
+        return otherPass || getOtherHandScore() > 21;
     }
 
 }
