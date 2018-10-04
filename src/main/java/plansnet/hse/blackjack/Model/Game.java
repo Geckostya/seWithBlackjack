@@ -75,10 +75,18 @@ public class Game {
 
         cards.add(deck.top());
 
-        if ((who && !selfEnded()) || (!who && !otherEnded())) {
+        if ((who && !selfPass) || (!who && !otherPass)) {
             who = !who;
         }
+    }
 
+    public void pass() {
+        if (who) {
+            otherPass = true;
+        } else {
+            selfPass = true;
+        }
+        who = !who;
     }
 
     public boolean who() {
@@ -97,14 +105,6 @@ public class Game {
             return false;
         }
         return getSelfHandScore() >= getOtherHandScore();
-    }
-
-    private boolean selfEnded() {
-        return selfPass || getSelfHandScore() > 21;
-    }
-
-    private boolean otherEnded() {
-        return otherPass || getOtherHandScore() > 21;
     }
 
 }
