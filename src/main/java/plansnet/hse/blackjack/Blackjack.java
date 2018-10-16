@@ -115,6 +115,10 @@ public class Blackjack extends Application {
 
     @FXML
     private void get() {
+        if (player != null && player.isMyTurn()) {
+            player.makeTurn(Turn.GET);
+            return;
+        }
         game.getCard();
         updateScene();
         if (game.isOver()) {
@@ -124,6 +128,10 @@ public class Blackjack extends Application {
 
     @FXML
     private void pass() {
+        if (player != null && player.isMyTurn()) {
+            player.makeTurn(Turn.PASS);
+            return;
+        }
         game.pass();
         if (game.isOver()) {
             endGame(game.getWinner() ? 2 : 1);
@@ -132,7 +140,7 @@ public class Blackjack extends Application {
 
     interface Player {
         boolean isMyTurn();
-        void makeTurn();
+        void makeTurn(Turn turn);
     }
 
     @FXML
@@ -149,7 +157,7 @@ public class Blackjack extends Application {
             }
 
             @Override
-            public void makeTurn() {
+            public void makeTurn(Turn turn) {
 
             }
         };
@@ -169,7 +177,7 @@ public class Blackjack extends Application {
             }
 
             @Override
-            public void makeTurn() {
+            public void makeTurn(Turn turn) {
 
             }
         };
