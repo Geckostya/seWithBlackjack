@@ -64,10 +64,10 @@ public class Game {
 
 
     private int getSelfHandScore() {
-        return CardEvaluator.getHandScore(otherHand);
+        return CardEvaluator.getHandScore(selfHand);
     }
     private int getOtherHandScore() {
-        return CardEvaluator.getHandScore(selfHand);
+        return CardEvaluator.getHandScore(otherHand);
     }
 
     public void getCard() {
@@ -75,10 +75,18 @@ public class Game {
 
         cards.add(deck.top());
 
-        if ((who && !selfEnded()) || (!who && !otherEnded())) {
+        if ((who && !selfPass) || (!who && !otherPass)) {
             who = !who;
         }
+    }
 
+    public void pass() {
+        if (who) {
+            otherPass = true;
+        } else {
+            selfPass = true;
+        }
+        who = !who;
     }
 
     public boolean who() {
@@ -96,15 +104,7 @@ public class Game {
         if (getOtherHandScore() > 21) {
             return false;
         }
-        return getSelfHandScore() >= getOtherHandScore();
-    }
-
-    private boolean selfEnded() {
-        return selfPass || getSelfHandScore() > 21;
-    }
-
-    private boolean otherEnded() {
-        return otherPass || getOtherHandScore() > 21;
+        return getSelfHandScore() < getOtherHandScore();
     }
 
 }

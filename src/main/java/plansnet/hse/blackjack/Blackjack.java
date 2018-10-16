@@ -9,7 +9,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import plansnet.hse.blackjack.Model.Card;
 import plansnet.hse.blackjack.Model.Game;
@@ -35,14 +34,14 @@ public class Blackjack extends Application {
     private Label myIp;
 
     @FXML
-    private Label playerScore;
+    private Label selfScore;
     @FXML
-    private Label dealerScore;
+    private Label otherScore;
 
     @FXML
-    private Label playerDeck;
+    private Label selfDeck;
     @FXML
-    private Label dealerDeck;
+    private Label otherDeck;
 
     private Game game = new Game();
 
@@ -88,11 +87,11 @@ public class Blackjack extends Application {
     }
 
     private void updateScene() {
-        playerScore.setText("Player " + scores(game.getPlayerHand()));
-        dealerScore.setText("Dealer " + scores(game.getDealerHand()));
+        selfScore.setText("Self " + scores(game.getSelfHand()));
+        otherScore.setText("Other " + scores(game.getOtherHand()));
 
-        playerDeck.setText(deck(game.getPlayerHand()));
-        dealerDeck.setText(deck(game.getDealerHand()));
+        selfDeck.setText(deck(game.getSelfHand()));
+        otherDeck.setText(deck(game.getOtherHand()));
     }
 
     private String scores(List<Card> hand) {
@@ -107,7 +106,7 @@ public class Blackjack extends Application {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText(null);
         alert.setContentText(
-                (result == 0) ? "Draw!" : (result == 1) ? "You won!" : "Dealer won!"
+                result == 1 ? "You won!" : "Other won!"
         );
         alert.showAndWait();
         restartGame();
@@ -120,18 +119,19 @@ public class Blackjack extends Application {
 
     @FXML
     private void get() {
-        boolean result = game.getCard();
+        game.getCard();
         updateScene();
-        if (!result) {
-            endGame(2);
+        if (game.isOver()) {
+            endGame(game.getWinner() ? 2 : 1);
         }
     }
 
     @FXML
     private void pass() {
-        int result = game.playerPass();
-        updateScene();
-        endGame(result);
+        game.pass();
+        if (game.isOver()) {
+            endGame(game.getWinner() ? 2 : 1);
+        }
     }
 
     @FXML

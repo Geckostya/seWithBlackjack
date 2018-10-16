@@ -35,6 +35,7 @@ public class GameTests {
         boolean who = game.who();
         game.getCard();
         assertNotEquals(who, game.who());
+        who = game.who();
         game.getCard();
         assertNotEquals(who, game.who());
     }
@@ -45,11 +46,11 @@ public class GameTests {
         boolean who = game.who();
         game.getCard();
         if (!who) {
-            assertEquals(game.getSelfHand(), 3);
-            assertEquals(game.getOtherHand(), 2);
+            assertEquals(game.getSelfHand().size(), 3);
+            assertEquals(game.getOtherHand().size(), 2);
         } else {
-            assertEquals(game.getSelfHand(), 2);
-            assertEquals(game.getOtherHand(), 3);
+            assertEquals(game.getSelfHand().size(), 2);
+            assertEquals(game.getOtherHand().size(), 3);
         }
     }
 
