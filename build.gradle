@@ -5,6 +5,7 @@ plugins {
 
 apply plugin: 'java'
 
+sourceCompatibility = 1.8
 
 group 'plans.net'
 version '1.0-SNAPSHOT'

@@ -62,10 +62,6 @@ public class Blackjack extends Application {
         public ArrayList<Card> serverHand;
     }
 
-    interface Player {
-        State getStateAfterNewTurn(Turn turn) throws IOException;
-    }
-
     private Player player;
 
     @Override
@@ -134,6 +130,11 @@ public class Blackjack extends Application {
         }
     }
 
+    interface Player {
+        boolean isMyTurn();
+        void makeTurn();
+    }
+
     @FXML
     private void connect() throws IOException {
         serverButton.setDisable(true);
@@ -143,11 +144,13 @@ public class Blackjack extends Application {
             private Socket socket = new Socket(otherIp.getText(), 30239);
 
             @Override
-            public State getStateAfterNewTurn(Turn turn) throws IOException {
-                socket.getOutputStream().write(0);
-                int read = socket.getInputStream().read();
-                System.out.println("client read = " + read);
-                return new State();
+            public boolean isMyTurn() {
+                return false;
+            }
+
+            @Override
+            public void makeTurn() {
+
             }
         };
     }
@@ -161,12 +164,13 @@ public class Blackjack extends Application {
             private ServerSocket socket = new ServerSocket( 30239);
 
             @Override
-            public State getStateAfterNewTurn(Turn turn) throws IOException {
-                Socket client = socket.accept();
-                client.getOutputStream().write(1);
-                int read = client.getInputStream().read();
-                System.out.println("server read = " + read);
-                return new State();
+            public boolean isMyTurn() {
+                return false;
+            }
+
+            @Override
+            public void makeTurn() {
+
             }
         };
     }
