@@ -132,7 +132,7 @@ public class Blackjack extends Application {
 
     interface Player {
         boolean isMyTurn();
-        void makeTurn();
+        void makeTurn(Turn turn);
     }
 
     @FXML
@@ -149,7 +149,7 @@ public class Blackjack extends Application {
             }
 
             @Override
-            public void makeTurn() {
+            public void makeTurn(Turn turn) {
 
             }
         };
@@ -169,7 +169,7 @@ public class Blackjack extends Application {
             }
 
             @Override
-            public void makeTurn() {
+            public void makeTurn(Turn turn) {
 
             }
         };
